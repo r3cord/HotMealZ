@@ -20,42 +20,53 @@ session_start();
 		<link rel="stylesheet" href="style.css">
 
 	</head>
-	<body>	
-	<header>
-
-			<a href="index.php"><h1>HotMealZ</h1></a>
-
-		
-		<div class="button">
-			<?php
-			if(isset($_SESSION['logged_id']))
-			{
-				echo '<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>';
-			}
-			else
-			{
-				echo '<form action="loginform.php"><input type="submit" value="Zaloguj się!"/></form>';
-			}
-			?>
-		</div>
-		
-		<div class="button">
-			<?php
-			if(isset($_SESSION['logged_id']))
-			{
-				echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
-			}
-			else
-			{
-				echo '<form action="registerform.php"><input type="submit" value="Zarejestruj się"/></form>';
-			}
-			?>
-		</div>
-	</header>
 	
-	<article>
+	<body>	
+		<header>
+
+				<a href="index.php"><h1>HotMealZ</h1></a>
+
+			
+			<div class="button">
+				<?php
+				if(isset($_SESSION['logged_id']))
+				{
+					echo '<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>';
+				}
+				else if(isset($_SESSION['logged_id_partner']))
+				{
+					echo '<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>';
+				}
+				else
+				{
+					echo '<form action="loginform.php"><input type="submit" value="Zaloguj się!"/></form>';
+					echo '<form action="loginform_partner.php"><input type="submit" value="Zaloguj się jako Partner!"/></form>';
+				}
+				?>
+			</div>
+			
+			<div class="button">
+				<?php
+				if(isset($_SESSION['logged_id']))
+				{
+					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
+				}
+				else if(isset($_SESSION['logged_id_partner']))
+				{
+					echo '<form action="index.php"><input type="submit" value="Panel Lokalu"/></form>';
+				}
+				else
+				{
+					echo '<form action="registerform.php"><input type="submit" value="Zarejestruj się"/></form>';
+					echo '<form action="registerform_partner.php"><input type="submit" value="Zarejestruj się jako Partner"/></form>';
+				}
+				?>
+			</div>
+		</header>
 		
-	</article>
+		<article>
+			
+		</article>
 	
 	</body>
 
