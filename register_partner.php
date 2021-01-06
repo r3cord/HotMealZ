@@ -57,7 +57,16 @@ if(isset($_POST['email']))
 	{
 		$validation=false;
 		$_SESSION['e_rules']="Potwierdź akceptację regulaminu!";
-	}		
+	}
+
+	$region=$_POST['region'];
+	if ($region=='=wybierz z listy=')
+	{
+		$validation=false;
+		$_SESSION['e_region']="Wybierz region!";
+	}
+		
+		
 		
 	if($validation)
 	{
@@ -81,6 +90,20 @@ if(isset($_POST['email']))
 			$query->bindValue(':email', $email, PDO::PARAM_STR);
 			$query->bindValue(':hashed_password', $hashed_password, PDO::PARAM_STR);
 			$query->execute();
+			
+			$query = $connection->prepare('INSERT INTO restaurants VALUES (NULL, :id_partner, :id_region, :name, :description)');
+			$partnerQuery = $connection->query('SELECT id FROM partners WHERE email LIKE "'.$email.'"');
+			$_id_partner = $partnerQuery->fetch();
+			$id_partner = $_id_partner['id'];
+			$regionQuery = $connection->query('SELECT id FROM regions WHERE name LIKE "'.$region.'"');
+			$_id_region = $regionQuery->fetch();
+			$id_region = $_id_region['id'];
+			$query->bindValue(':name', $_POST['restaurantname'], PDO::PARAM_STR);
+			$query->bindValue(':description', $_POST['description'], PDO::PARAM_STR);
+			$query->bindValue(':id_partner', $id_partner, PDO::PARAM_STR);
+			$query->bindValue(':id_region', $id_region, PDO::PARAM_STR);
+			$query->execute();
+			
 			$query=NULL;
 			$_SESSION['registered']=true;
 			header('Location: loginform_partner.php');
@@ -94,6 +117,9 @@ if(isset($_POST['email']))
 		$_SESSION['given_firstname'] = $_POST['firstname'];
 		$_SESSION['given_secondname'] = $_POST['secondname'];
 		$_SESSION['given_email'] = $_POST['email'];
+		$_SESSION['given_restaurantname'] = $_POST['restaurantname'];
+		$_SESSION['given_description'] = $_POST['description'];
+		if($region!='=wybierz z listy=') $_SESSION['given_region'] = $_POST['region'];
 		if (isset($_POST['rules'])) $_SESSION['given_rules'] = true;
 		header('Location: registerform_partner.php');
 		exit();

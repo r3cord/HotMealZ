@@ -2,6 +2,9 @@
 	
 session_start();
 
+require_once 'connect.php';
+$regionsQuery = $connection->query('SELECT name FROM regions');
+$Qregions = $regionsQuery->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -91,6 +94,74 @@ session_start();
 				}
 				?>
 				
+				
+				
+				<br />
+				
+				Nazwa lokalu: <br /> <input type="text" value="<?php
+					if(isset($_SESSION['given_restaurantname']))
+					{
+						echo $_SESSION['given_restaurantname'];
+						unset($_SESSION['given_restaurantname']);
+					}
+				
+				?>" name="restaurantname" required/><br />
+				
+				<?php
+				if (isset($_SESSION['e_restaurantname']))
+				{
+					echo '<div class="error">'.$_SESSION['e_restaurantname'].'</div>';
+					unset($_SESSION['e_restaurantname']);
+				}
+				?>
+				
+				<!---tu chciałem dać wyższe okno, ale w mojej przeglądarce to nie działa - można spróbować to naprawić w ,,wolnym czasie"--->
+				Opis lokalu (opcjonalne):<br /> <input type="text" size="85" value="<?php
+					if(isset($_SESSION['given_description']))
+					{
+						echo $_SESSION['given_description'];
+						unset($_SESSION['given_description']);
+					}
+				
+				?>" name="description" /><br />
+				
+				<?php
+				if (isset($_SESSION['e_description']))
+				{
+					echo '<div class="error">'.$_SESSION['e_description'].'</div>';
+					unset($_SESSION['e_description']);
+				}
+				?>
+				<!---wypisywanie błędów zostawiłem w razie gdyby pojawiły się jakieś ograniczenia co do nazw i opisów lokali, na razie takich ograniczeń nie ma--->
+				
+				Region lokalu: <br />
+				<select name="region">
+				<?php
+					if(isset($_SESSION['given_region']))
+					{
+						echo '<option>'.$_SESSION['given_region'].'</option>';
+						unset($_SESSION['given_region']);
+					}
+				?>
+				<option>=wybierz z listy=</option>
+				<?php
+					foreach ($Qregions as $Qregion) 
+					{
+						echo "<option>{$Qregion['name']}</option>";
+					}
+				?>
+				</select>
+				
+				<?php
+				if (isset($_SESSION['e_region']))
+				{
+					echo '<div class="error">'.$_SESSION['e_region'].'</div>';
+					unset($_SESSION['e_region']);
+				}
+				?>
+				
+				
+				<br /><br />
 				<label>
 				<input type="checkbox" name="rules" <?php
 				if (isset($_SESSION['given_rules']))
@@ -106,7 +177,7 @@ session_start();
 					echo '<div class="error">'.$_SESSION['e_rules'].'</div>';
 					unset($_SESSION['e_rules']);
 				}
-				?>
+				?>				
 				
 				<input type="submit" value="Zarejestruj się!"/>			
 			</form>
