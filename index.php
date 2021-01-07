@@ -53,7 +53,7 @@ session_start();
 				}
 				else if(isset($_SESSION['logged_id_partner']))
 				{
-					echo '<form action="index.php"><input type="submit" value="Panel Lokalu"/></form>';
+					echo '<form action="restaurant_panel.php"><input type="submit" value="Panel Lokalu"/></form>';
 				}
 				else
 				{
