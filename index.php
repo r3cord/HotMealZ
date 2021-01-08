@@ -29,7 +29,7 @@ session_start();
 			
 			<div class="button">
 				<?php
-				if(isset($_SESSION['logged_id']))
+				if(isset($_SESSION['logged_id'])) //Jeżeli zalogowano
 				{
 					echo '<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>';
 				}
