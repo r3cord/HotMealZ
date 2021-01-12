@@ -49,7 +49,7 @@ if(isset($_SESSION['logged_id_partner']) == false)
 			</div>
 			
 			<div class="button">
-				<form action="restaurant_panel.php"><input type="submit" value="Zmień ofertę lokalu"/></form>
+				<form action="restaurant_offer_changeform.php"><input type="submit" value="Zmień ofertę lokalu"/></form>
 			</div>
 			
 		</article>
