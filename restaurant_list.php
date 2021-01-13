@@ -1,10 +1,19 @@
 <?php
-
 session_start();
 
+if(!isset($_POST['region']))
+{
+	header('Location: index.php');
+	exit();
+}
+
 require_once 'connect.php';
-$regionsQuery = $connection->query('SELECT name FROM regions');
-$Qregions = $regionsQuery->fetchAll();
+$region_idQuery = $connection->query('SELECT id FROM regions WHERE name LIKE "'.$_POST['region'].'"');
+$region_id = $region_idQuery->fetch();
+$restaurantsQuery = $connection->query('SELECT name,description FROM restaurants WHERE id_region='.$region_id['id']);
+$restaurants = $restaurantsQuery->fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -71,23 +80,35 @@ $Qregions = $regionsQuery->fetchAll();
 		</header>
 		
 		<article>
-			<div class="form">
-				<h1>Zamów jedzenie z Twojej ulubionej restauracji!</h1></br>
-				Wybierz region:
-					<form method="post" action="restaurant_list.php">
-					Region: <select name="region">
-					<option>=wybierz z listy=</option>
+			<div class="list">
+			<h1>Restauracje znajdujące się w regionie <?php echo $_POST['region'];?></h1>
+			</br>
+				<table class="fixed">
+					<thead>
+						<tr>
+							<th>Nazwa</th>
+							<th>Opis</th>
+						</tr>
+					</thead>
+					<tbody>
 					<?php
-						foreach ($Qregions as $Qregion) 
+						if(isset($restaurants))
 						{
-							echo "<option>{$Qregion['name']}</option>";
+							foreach ($restaurants as $restaurant) 
+							{
+								echo "<tr>";
+									echo "<td>" . $restaurant['name'] . "</td>";
+									echo "<td>" . $restaurant['description'] . "</td>";
+								echo "</tr>";
+							}
+						}
+						else
+						{
+							echo "Brak restauracji w tym regionie!";
 						}
 					?>
-					</select>
-					</br>
-					</br>
-					<input type="submit" value="Pokaż restauracje!"/>
-					</form>
+					</tbody>
+				</table>
 			</div>
 		</article>
 	
