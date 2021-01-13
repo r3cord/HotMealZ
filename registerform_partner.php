@@ -34,6 +34,8 @@ $Qregions = $regionsQuery->fetchAll();
 	<article>
 	
 		<div class="form">
+			<h1>Zarejestruj się jako</br> partner!</h1>
+			</br>
 			<form method="post" action="register_partner.php">
 			
 				Imię: <br /> <input type="text" value="<?php
@@ -116,14 +118,14 @@ $Qregions = $regionsQuery->fetchAll();
 				?>
 				
 				<!---tu chciałem dać wyższe okno, ale w mojej przeglądarce to nie działa - można spróbować to naprawić w ,,wolnym czasie"--->
-				Opis lokalu (opcjonalne):<br /> <input type="text" size="85" value="<?php
-					if(isset($_SESSION['given_description']))
-					{
-						echo $_SESSION['given_description'];
-						unset($_SESSION['given_description']);
-					}
-				
-				?>" name="description" /><br />
+				Opis lokalu (opcjonalne):<br /> 
+				<textarea type="text" class="description" name="description" placeholder="Tutaj wpisz lokalu..."><?php
+						if(isset($_SESSION['given_description']))
+						{
+							echo $_SESSION['given_description'];
+							unset($_SESSION['given_description']);
+						}
+					?></textarea><br />
 				
 				<?php
 				if (isset($_SESSION['e_description']))
