@@ -2,27 +2,56 @@ body
 {
   margin: 0px;
   padding: 0px;
+  background: url(img/background.png); /*from www.subtlepatterns.com */
+  font-family: 'Dosis', sans-serif;
 }
 
 header
 {
-	background-color: lightgray;
-	padding: 5px;
-	text-align: center;
+	background: rgba(36,36,36,0.2);
+	padding-top: 5px;
+	padding-bottom:5px;
+	text-align: left;
+	border-bottom: 2px;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+	height: min-content;
 }
 h1
 {
-	margin-left:auto;
-	margin-right:auto;
-	width: 25%;
-	display: inline-block;
+	margin:0;
 }
-
-.button
+.logo
 {
+	display: inline-block;
+	width: min-content;
+	height: min-content;
+}
+.buttons
+{
+	text-align: center;
 	display: inline-block;
 	float: right;
 	margin-left: 2px;
+	padding-top: 0;
+}
+
+input[type="submit"]
+{
+
+	flex-grow: 2;
+	border: 1px;
+	border-color: black;
+	border-style: solid;
+	border-radius: 50px;
+	margin-top: 0px;
+	margin-bottom: 1px;
+	font: 'Anton', sans-serif;
+}
+input
+{
+	margin-top: 1px;
+	margin-bottom: 1px;
 }
 
 .error
@@ -32,21 +61,23 @@ h1
 
 .form
 {
-	width:180px;
-	height:500px;
+	background: rgba(36,36,36,0.15);
+	border: 1px;
+	border-color: black;
+	border: solid;
 	margin-left: auto;
-	margin-right: auto;
-	margin-top:10px;
-}
-
-input
-{
-	margin-top: 3px;
+    margin-right: auto;
+	margin-top: 100px;
+	padding: 25px;
+	height: min-content;
+	width: max-content;
+	text-align: center;
+	border-radius: 25px;
 }
 
 a 
 {
-      text-decoration: none;
+     text-decoration: none;
      color: #000;
 }
 
@@ -54,4 +85,9 @@ a:hover
 {
       text-decoration: none;
       color: #505050;
+}
+
+.description
+{
+	height: calc(2.5em + 4.75rem + 2px);
 }

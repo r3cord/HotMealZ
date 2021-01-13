@@ -36,6 +36,8 @@ session_start();
 			?>
 		
 			<div class="form">
+				<h1>Zaloguj się jako</br> partner!</h1>
+				</br>
 				<form method="post" action="login_partner.php">
 					E-mail: <br /> <input type="email" value="<?php
 					if (isset($_SESSION['given_email']))
