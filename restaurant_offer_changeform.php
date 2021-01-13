@@ -58,8 +58,7 @@ $your_offer = $offerQuery->fetchAll();
 						<?php
 						//napisanie nazwy lokalu zalogowanego partnera oraz liczby dań w tym lokalu
 							echo "<tr><td>Lokal: {$your_restaurant['name']}</td>
-							<td>Liczba dań: ".$offerQuery->rowCount()."</td>
-							<td></td></tr>";
+							<td>Liczba dań: ".$offerQuery->rowCount()."</td></tr>";
 						?>
 						<tr><td>NAZWA DANIA</td>
 						<td>CENA DANIA</td>
@@ -68,10 +67,21 @@ $your_offer = $offerQuery->fetchAll();
 					<tbody>
 						<?php
 						//wypisanie, w formie tablicy, dań będących aktualnie w ofercie partnera
+						//linki w komórkach 4 i 5 prowadzą do akcji (odpowiednio) usuwania i edycji danych dania
 						foreach ($your_offer as $dish) {
-							echo "<tr><td>{$dish['name']}</td>
+							echo "<tr name='{$dish['id']}'><td>{$dish['name']}</td>
 							<td>{$dish['price']} zł</td>
-							<td>{$dish['description']}</td></tr>";
+							<td>{$dish['description']}</td>
+							<td>
+								<div class='button'>
+								<a href='dish_remove.php?id={$dish['id']}'>Usuń danie</a>
+								</div>
+							</td>
+							<td>
+								<div class='button'>
+								<a href='dish_edit.php?id={$dish['id']}&name={$dish['name']}&price={$dish['price']}&description={$dish['description']}'>Edytuj danie</a>
+								</div>
+							</td></tr>";
 						}
 						?>
 					</tbody>

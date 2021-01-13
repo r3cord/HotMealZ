@@ -74,7 +74,7 @@ $Qregions = $regionsQuery->fetchAll();
 				}
 				?>
 				
-				Opis lokalu:<br /> <input type="text" size="85" value="<?php
+				Opis lokalu:<br /> <textarea type="text" class="description" name="description"><?php
 					if(isset($_SESSION['given_description']))
 					{
 						echo $_SESSION['given_description'];
@@ -82,7 +82,7 @@ $Qregions = $regionsQuery->fetchAll();
 					}
 					else echo $your_restaurant['description'];
 				
-				?>" name="description" /><br />
+				?></textarea><br />
 				
 				<?php
 				if (isset($_SESSION['e_description']))

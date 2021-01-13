@@ -58,6 +58,7 @@ require_once 'connect.php';
 					}
 				?>" name="dishname" required/><br />
 				
+				<!---wypisanie ewentualnego komunikatu błędu--->
 				<?php
 				if (isset($_SESSION['e_dishname']))
 				{
@@ -67,7 +68,7 @@ require_once 'connect.php';
 				?>
 				
 				<!---pole na wpisanie ceny dodawanego dania--->
-				Cena dania [zł]: <br /> <input type="number" step="0.01" value="<?php
+				Cena dania [zł]: <br /> <input type="number" step="0.01" min="0" value="<?php
 					if(isset($_SESSION['given_price']))
 					{
 						echo $_SESSION['given_price'];
@@ -75,6 +76,7 @@ require_once 'connect.php';
 					}
 				?>" name="price" required/><br />
 				
+				<!---wypisanie ewentualnego komunikatu błędu--->
 				<?php
 				if (isset($_SESSION['e_price']))
 				{
@@ -84,14 +86,15 @@ require_once 'connect.php';
 				?>
 				
 				<!---pole na wpisanie opisu dodawanego dania--->
-				Opis dania:<br /> <input type="text" size="85" value="<?php
+				Opis dania:<br /> <textarea type="text" class="description" name="description"><?php
 					if(isset($_SESSION['given_description']))
 					{
 						echo $_SESSION['given_description'];
 						unset($_SESSION['given_description']);
 					}
-				?>" name="description" /><br />
+				?></textarea><br />
 				
+				<!---wypisanie ewentualnego komunikatu błędu--->
 				<?php
 				if (isset($_SESSION['e_description']))
 				{
