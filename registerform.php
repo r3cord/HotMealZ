@@ -30,6 +30,8 @@ session_start();
 	<article>
 	
 		<div class="form">
+			<h1>Zarejestruj się!</h1>
+			</br>
 			<form method="post" action="register.php">
 			
 				Imię: <br /> <input type="text" value="<?php

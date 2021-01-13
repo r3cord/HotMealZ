@@ -2,6 +2,9 @@
 
 session_start();
 
+require_once 'connect.php';
+$regionsQuery = $connection->query('SELECT name FROM regions');
+$Qregions = $regionsQuery->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -19,15 +22,18 @@ session_start();
 		<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
 		<link rel="stylesheet" href="style.css">
 
+
 	</head>
 	
 	<body>	
 		<header>
 
+			<div class="logo">
 				<a href="index.php"><h1>HotMealZ</h1></a>
+			</div>
 
 			
-			<div class="button">
+			<div class="buttons">
 				<?php
 				if(isset($_SESSION['logged_id'])) //Jeżeli zalogowano
 				{
@@ -40,12 +46,12 @@ session_start();
 				else
 				{
 					echo '<form action="loginform.php"><input type="submit" value="Zaloguj się!"/></form>';
-					echo '<form action="loginform_partner.php"><input type="submit" value="Zaloguj się jako Partner!"/></form>';
+					echo '<form action="registerform.php"><input type="submit" value="Zarejestruj się"/></form>';
 				}
 				?>
 			</div>
 			
-			<div class="button">
+			<div class="buttons">
 				<?php
 				if(isset($_SESSION['logged_id']))
 				{
@@ -57,7 +63,7 @@ session_start();
 				}
 				else
 				{
-					echo '<form action="registerform.php"><input type="submit" value="Zarejestruj się"/></form>';
+					echo '<form action="loginform_partner.php"><input type="submit" value="Zaloguj się jako Partner!"/></form>';
 					echo '<form action="registerform_partner.php"><input type="submit" value="Zarejestruj się jako Partner"/></form>';
 				}
 				?>
@@ -65,7 +71,24 @@ session_start();
 		</header>
 		
 		<article>
-			
+			<div class="form">
+				<h1>Zamów jedzenie z Twojej ulubionej restauracji!</h1></br>
+				Wybierz region:
+					<form method="get" action="restaurant_list.php">
+					Region: <select name="region">
+					<option>=wybierz z listy=</option>
+					<?php
+						foreach ($Qregions as $Qregion) 
+						{
+							echo "<option>{$Qregion['name']}</option>";
+						}
+					?>
+					</select>
+					</br>
+					</br>
+					<input type="submit" value="Pokaż restauracje!"/>
+					</form>
+			</div>
 		</article>
 	
 	</body>
