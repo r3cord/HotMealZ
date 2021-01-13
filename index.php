@@ -71,24 +71,27 @@ $Qregions = $regionsQuery->fetchAll();
 		</header>
 		
 		<article>
-			<div class="form">
+		<?php
+		if(!isset($_SESSION['logged_id_partner']))
+			{
+			echo "<div class='form'>
 				<h1>Zamów jedzenie z Twojej ulubionej restauracji!</h1></br>
 				Wybierz region:
-					<form method="post" action="restaurant_list.php">
-					Region: <select name="region">
-					<option>=wybierz z listy=</option>
-					<?php
+					<form method='post' action='restaurant_list.php'>
+					Region: <select name='region'>
+					<option>=wybierz z listy=</option>";
 						foreach ($Qregions as $Qregion) 
 						{
 							echo "<option>{$Qregion['name']}</option>";
 						}
-					?>
-					</select>
+					echo "</select>
 					</br>
 					</br>
-					<input type="submit" value="Pokaż restauracje!"/>
+					<input type='submit' value='Pokaż restauracje!'/>
 					</form>
-			</div>
+			</div>";
+			}
+		?>
 		</article>
 	
 	</body>
