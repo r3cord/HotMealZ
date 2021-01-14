@@ -79,7 +79,7 @@ $your_offer = $offerQuery->fetchAll();
 							</td>
 							<td>
 								<div class='button'>
-								<a href='dish_edit.php?id={$dish['id']}&name={$dish['name']}&price={$dish['price']}&description={$dish['description']}'>Edytuj danie</a>
+								<a href='dish_editform.php?id={$dish['id']}&name={$dish['name']}&price={$dish['price']}&description={$dish['description']}'>Edytuj danie</a>
 								</div>
 							</td></tr>";
 						}
