@@ -76,6 +76,7 @@ else
 				<!---pole na wpisanie nazwy dodawanego dania--->
 				Nazwa dania: <br /> <input type="text" value="<?php
 						echo $_SESSION['given_dishname'];
+						unset($_SESSION['given_dishname']);
 				?>" name="dishname" required/><br />
 				
 				<!---wypisanie ewentualnego komunikatu błędu--->
@@ -90,6 +91,7 @@ else
 				<!---pole na wpisanie ceny dodawanego dania--->
 				Cena dania [zł]: <br /> <input type="number" step="0.01" min="0" value="<?php
 						echo $_SESSION['given_price'];
+						unset($_SESSION['given_price']);
 				?>" name="price" required/><br />
 				
 				<!---wypisanie ewentualnego komunikatu błędu--->
@@ -104,6 +106,7 @@ else
 				<!---pole na wpisanie opisu dodawanego dania--->
 				Opis dania:<br /> <textarea type="text" class="description" name="description"><?php
 						echo $_SESSION['given_description'];
+						unset($_SESSION['given_description']);
 				?></textarea><br />
 				
 				<!---wypisanie ewentualnego komunikatu błędu--->
