@@ -17,7 +17,7 @@ if($restaurant_idQuery->rowCount()==0)
 	exit();
 }
 $restaurant_id = $restaurant_idQuery->fetch();
-$dishesQuery = $connection->query('SELECT name,price,description FROM dishes WHERE id_restaurant='.$restaurant_id['id']);
+$dishesQuery = $connection->query('SELECT id,name,price,description FROM dishes WHERE id_restaurant='.$restaurant_id['id']);
 $dishes = $dishesQuery->fetchAll();
 
 ?>
@@ -111,8 +111,15 @@ $dishes = $dishesQuery->fetchAll();
 									echo "<td>" . $dish['name'] . "</td>";
 									echo "<td>" . $dish['description'] . "</td>";			
 									echo "<td>" . $dish['price'] . "zł</td>";
-									echo "<td>5</td>";												
-									echo "<td><a class='button' href='dishes_list.php?rest=".$dish['name']."'>Dodaj</a></td>";
+									if(isset($_SESSION['logged_id']))
+									{
+										echo "<td><form method='post' action='add_to_cart.php'><input class='quantity' type='number' step='1' min='1' max='999' name='quantity' required /><input type='hidden' name='id' value='".$dish['id']."'/><input type='hidden' name='restaurant_id' value='".$restaurant_id['id']."'/><input type='hidden' name='dish_name' value='".$dish['name']."'/><input type='hidden' name='price' value='".$dish['price']."'/><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></td>";
+										echo "<td><input type='submit' value='Dodaj' /></form></td>";										
+									}
+									else
+									{
+										echo "<td colspan='2'>Musisz się zalogować!</td>";
+									}		
 								echo "</tr>";
 							}
 						}
@@ -125,6 +132,61 @@ $dishes = $dishesQuery->fetchAll();
 				</table>
 				</br>
 				<h1>Koszyk:</h1>
+				
+					<?php 
+					if(isset($_SESSION['logged_id']))
+					{
+						if(isset($_SESSION['cart']) && isset($_SESSION['cart'][0]))
+						{
+							if($_SESSION['cart'][0][0]==$restaurant_id['id'])
+							{
+								echo "
+								<table class='fixed_cart'>
+									<tbody>
+										<thead>
+											<tr>
+												<th>Nazwa</th>
+												<th>Ilość</th>
+												<th>Cena/szt</th>
+												<th>Koszt</th>
+												<th>Usuń</th>
+											</tr>
+										</thead>";
+							$array = $_SESSION['cart'];
+							$count = count($array);
+							$sum=0;
+							for($i=0; $i<$count; $i++)
+							{
+								echo "<tr>";
+									echo "<td>" . $array[$i][2] . "</td>";
+									echo "<td><form method='post' action='update_quantity.php'><input class='quantity' type='number' step='1' min='1' max='999' name='quantity' value='".$array[$i][3]."' required /><input type='submit' value='Aktualizuj' /><input type='hidden' value='".$i."' name='row' /><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></form></td>";		
+									echo "<td>" . $array[$i][4] . "zł</td>";		
+									echo "<td>" . $array[$i][5] . "zł</td>";												
+									echo "<td><form method='post' action='delete_dish_from_cart.php'><input type='submit' value='Usuń' /><input type='hidden' value='".$i."' name='row' /><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></form></td>";
+								echo "</tr>";
+								$sum=$sum+$array[$i][5];
+							}
+							echo "</tbody>	
+				                    </table>
+									<h3>Suma: ".$sum." zł</h3>
+									<form method ='post' action='delete_cart.php'><input type='submit' value='Opróżnij koszyk' /><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></form>";
+							}
+							else
+							{
+								echo "<p><span style='color:red'>Do koszyka można dodawać dania tylko z tej samej restauracji! Twój koszyk został opróżniony!</span></p>
+										   <p>Możesz już dodawać nowe dania!</p>";
+								unset($_SESSION['cart']);
+							}
+				
+						}
+						else echo "Koszyk jest pusty";
+					}
+					else
+					{
+						echo "Aby dodawać rzeczy do koszyka musisz być zalogowany/a!";
+					}
+					?>
+
 			</div>
 
 		</article>
