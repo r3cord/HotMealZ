@@ -34,13 +34,7 @@ if(isset($_GET['dishname']))
 		$query->bindValue(':price', $_GET['price'], PDO::PARAM_STR);
 		$query->bindValue(':description', $_GET['description'], PDO::PARAM_STR);
 		$query->execute();
-		
-		//,,opróżnienie" zmiennych
 		$query=NULL;
-		//unset($_GET['id']);
-		//unset($_GET['dishname']);
-		//unset($_GET['price']);
-		//unset($_GET['description']);
 		
 		header('Location: restaurant_offer_changeform.php');
 		exit();
