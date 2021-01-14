@@ -100,7 +100,7 @@ $restaurants = $restaurantsQuery->fetchAll();
 								echo "<tr>";
 									echo "<td>" . $restaurant['name'] . "</td>";
 									echo "<td>" . $restaurant['description'] . "</td>";				
-									echo "<td><a class='button' href='dishes_list.php?rest=".$restaurant['name']."'>Wybierz</a>";
+									echo "<td><form method='get' action='dishes_list.php'><input type='submit' value='Wybierz'><input type='hidden' value='".$restaurant['name']."' name='rest' /></form></td>";
 								echo "</tr>";
 							}
 						}
