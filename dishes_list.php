@@ -1,18 +1,24 @@
 <?php
 session_start();
 
-if(!isset($_POST['region']))
+if(!isset($_GET['rest']))
 {
 	header('Location: index.php');
 	exit();
 }
 
 require_once 'connect.php';
-$region_idQuery = $connection->query('SELECT id FROM regions WHERE name LIKE "'.$_POST['region'].'"');
-$region_id = $region_idQuery->fetch();
-$restaurantsQuery = $connection->query('SELECT name,description FROM restaurants WHERE id_region='.$region_id['id']);
-$restaurants = $restaurantsQuery->fetchAll();
-
+$restaurant_idQuery = $connection->prepare('SELECT id FROM restaurants WHERE name = :name');
+$restaurant_idQuery->bindValue(':name', $_GET['rest'], PDO::PARAM_STR);
+$restaurant_idQuery->execute();
+if($restaurant_idQuery->rowCount()==0)
+{
+	header('Location: index.php');
+	exit();
+}
+$restaurant_id = $restaurant_idQuery->fetch();
+$dishesQuery = $connection->query('SELECT name,price,description FROM dishes WHERE id_restaurant='.$restaurant_id['id']);
+$dishes = $dishesQuery->fetchAll();
 
 ?>
 
@@ -30,6 +36,8 @@ $restaurants = $restaurantsQuery->fetchAll();
 
 		<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
 		<link rel="stylesheet" href="style.css">
+		
+		<script src="getValueFromCell.js"></script>
 
 
 	</head>
@@ -80,38 +88,45 @@ $restaurants = $restaurantsQuery->fetchAll();
 		</header>
 		
 		<article>
-			<div class="list">
-			<h1>Restauracje znajdujące się w regionie <?php echo $_POST['region'];?></h1>
+			<div class="list" >
+			<h1>Dania z restauracji <?php echo $_GET['rest'];?></h1>
 			</br>
 				<table class="fixed">
 					<thead>
 						<tr>
 							<th>Nazwa</th>
 							<th>Opis</th>
-							<th></th>
+							<th>Cena</th>
+							<th>ilość</th>
+							<th>Dodaj</th>
 						</tr>
 					</thead>
 					<tbody>
 					<?php
-						if(isset($restaurants))
+						if(isset($dishes))
 						{
-							foreach ($restaurants as $restaurant) 
+							foreach ($dishes as $dish) 
 							{
 								echo "<tr>";
-									echo "<td>" . $restaurant['name'] . "</td>";
-									echo "<td>" . $restaurant['description'] . "</td>";				
-									echo "<td><a class='button' href='dishes_list.php?rest=".$restaurant['name']."'>Wybierz</a>";
+									echo "<td>" . $dish['name'] . "</td>";
+									echo "<td>" . $dish['description'] . "</td>";			
+									echo "<td>" . $dish['price'] . "zł</td>";
+									echo "<td>5</td>";												
+									echo "<td><a class='button' href='dishes_list.php?rest=".$dish['name']."'>Dodaj</a></td>";
 								echo "</tr>";
 							}
 						}
 						else
 						{
-							echo "Brak restauracji w tym regionie!";
+							echo "Brak dodanych dań w tej restauracji!";
 						}
 					?>
 					</tbody>
 				</table>
+				</br>
+				<h1>Koszyk:</h1>
 			</div>
+
 		</article>
 	
 	</body>
