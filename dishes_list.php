@@ -19,7 +19,7 @@ if($restaurant_idQuery->rowCount()==0)
 }
 //Pobranie odpowiednich danych z bazy danych
 $restaurant_id = $restaurant_idQuery->fetch();
-$dishesQuery = $connection->query('SELECT id,name,price,description FROM dishes WHERE id_restaurant='.$restaurant_id['id']);
+$dishesQuery = $connection->query('SELECT name,price,description FROM dishes WHERE id_restaurant='.$restaurant_id['id']);
 $dishes = $dishesQuery->fetchAll();
 
 ?>
@@ -114,15 +114,8 @@ $dishes = $dishesQuery->fetchAll();
 									echo "<td>" . $dish['name'] . "</td>";
 									echo "<td>" . $dish['description'] . "</td>";			
 									echo "<td>" . $dish['price'] . "zł</td>";
-									if(isset($_SESSION['logged_id']))
-									{
-										echo "<td><form method='post' action='add_to_cart.php'><input class='quantity' type='number' step='1' min='1' max='999' name='quantity' required /><input type='hidden' name='id' value='".$dish['id']."'/><input type='hidden' name='restaurant_id' value='".$restaurant_id['id']."'/><input type='hidden' name='dish_name' value='".$dish['name']."'/><input type='hidden' name='price' value='".$dish['price']."'/><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></td>";
-										echo "<td><input type='submit' value='Dodaj' /></form></td>";										
-									}
-									else
-									{
-										echo "<td colspan='2'>Musisz się zalogować!</td>";
-									}		
+									echo "<td>5</td>";												
+									echo "<td><a class='button' href='dishes_list.php?rest=".$dish['name']."'>Dodaj</a></td>";
 								echo "</tr>";
 							}
 						}
