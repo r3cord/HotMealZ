@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(!isset($_GET['rest']))
+if(!isset($_GET['rest']) || isset($_SESSION['logged_id_partner']))
 {
 	header('Location: index.php');
 	exit();
@@ -58,10 +58,6 @@ $dishes = $dishesQuery->fetchAll();
 				{
 					echo '<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>';
 				}
-				else if(isset($_SESSION['logged_id_partner']))
-				{
-					echo '<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>';
-				}
 				else //Jeżeli nie jest się zalogowanym
 				{
 					echo '<form action="loginform.php"><input type="submit" value="Zaloguj się!"/></form>';
@@ -76,14 +72,18 @@ $dishes = $dishesQuery->fetchAll();
 				{
 					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
 				}
-				else if(isset($_SESSION['logged_id_partner']))
-				{
-					echo '<form action="restaurant_panel.php"><input type="submit" value="Panel Lokalu"/></form>';
-				}
 				else //Jeżeli nie jest się zalogowanym
 				{
 					echo '<form action="loginform_partner.php"><input type="submit" value="Zaloguj się jako Partner!"/></form>';
 					echo '<form action="registerform_partner.php"><input type="submit" value="Zarejestruj się jako Partner"/></form>';
+				}
+				?>
+			</div>
+			<div class="buttons">
+				<?php
+				if(isset($_SESSION['logged_id']))
+				{
+					echo '<form action="cart.php"><input type="submit" value="Koszyk"/></form>';
 				}
 				?>
 			</div>
