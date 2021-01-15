@@ -7,6 +7,7 @@ if(!isset($_POST['region']))
 	exit();
 }
 
+//Pobranie odpowiednich danych z bazy danych
 require_once 'connect.php';
 $region_idQuery = $connection->query('SELECT id FROM regions WHERE name LIKE "'.$_POST['region'].'"');
 $region_id = $region_idQuery->fetch();
@@ -93,6 +94,7 @@ $restaurants = $restaurantsQuery->fetchAll();
 					</thead>
 					<tbody>
 					<?php
+					//Wyświetlenie wszystkich dostępnych restauracji w danym regionie w tabeli
 						if(isset($restaurants))
 						{
 							foreach ($restaurants as $restaurant) 

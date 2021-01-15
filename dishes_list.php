@@ -11,11 +11,13 @@ require_once 'connect.php';
 $restaurant_idQuery = $connection->prepare('SELECT id FROM restaurants WHERE name = :name');
 $restaurant_idQuery->bindValue(':name', $_GET['rest'], PDO::PARAM_STR);
 $restaurant_idQuery->execute();
+//Jeżeli restauracja o nazwie $_GET['rest'] nie istnieje to wracamy do index.php
 if($restaurant_idQuery->rowCount()==0)
 {
 	header('Location: index.php');
 	exit();
 }
+//Pobranie odpowiednich danych z bazy danych
 $restaurant_id = $restaurant_idQuery->fetch();
 $dishesQuery = $connection->query('SELECT id,name,price,description FROM dishes WHERE id_restaurant='.$restaurant_id['id']);
 $dishes = $dishesQuery->fetchAll();
@@ -60,7 +62,7 @@ $dishes = $dishesQuery->fetchAll();
 				{
 					echo '<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>';
 				}
-				else
+				else //Jeżeli nie jest się zalogowanym
 				{
 					echo '<form action="loginform.php"><input type="submit" value="Zaloguj się!"/></form>';
 					echo '<form action="registerform.php"><input type="submit" value="Zarejestruj się"/></form>';
@@ -70,7 +72,7 @@ $dishes = $dishesQuery->fetchAll();
 			
 			<div class="buttons">
 				<?php
-				if(isset($_SESSION['logged_id']))
+				if(isset($_SESSION['logged_id'])) //Jeżeli zalogowano
 				{
 					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
 				}
@@ -78,7 +80,7 @@ $dishes = $dishesQuery->fetchAll();
 				{
 					echo '<form action="restaurant_panel.php"><input type="submit" value="Panel Lokalu"/></form>';
 				}
-				else
+				else //Jeżeli nie jest się zalogowanym
 				{
 					echo '<form action="loginform_partner.php"><input type="submit" value="Zaloguj się jako Partner!"/></form>';
 					echo '<form action="registerform_partner.php"><input type="submit" value="Zarejestruj się jako Partner"/></form>';
@@ -103,6 +105,7 @@ $dishes = $dishesQuery->fetchAll();
 					</thead>
 					<tbody>
 					<?php
+					//Wyświetlenie dań z konkretnej restauracji
 						if(isset($dishes))
 						{
 							foreach ($dishes as $dish) 
@@ -134,7 +137,7 @@ $dishes = $dishesQuery->fetchAll();
 				<h1>Koszyk:</h1>
 				
 					<?php 
-					if(isset($_SESSION['logged_id']))
+					if(isset($_SESSION['logged_id'])) //Jeżeli zalogowano to można dodawać rzeczy do koszyka
 					{
 						if(isset($_SESSION['cart']) && isset($_SESSION['cart'][0]))
 						{
@@ -181,7 +184,7 @@ $dishes = $dishesQuery->fetchAll();
 						}
 						else echo "Koszyk jest pusty";
 					}
-					else
+					else //Jeżeli nie to nie ma możliwości dodawania dań do koszyka
 					{
 						echo "Aby dodawać rzeczy do koszyka musisz być zalogowany/a!";
 					}
