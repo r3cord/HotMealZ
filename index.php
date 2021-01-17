@@ -71,7 +71,7 @@ $Qregions = $regionsQuery->fetchAll();
 				}
 				?>
 			</div>
-			
+      
 			<div class="buttons">
 				<?php
 				if(isset($_SESSION['logged_id']))
