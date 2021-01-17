@@ -2,12 +2,6 @@
 
 session_start();
 
-if(isset($_SESSION['logged_id_admin']))
-{
-	header('Location: admin_panel.php');
-	exit();
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -34,11 +28,11 @@ if(isset($_SESSION['logged_id_admin']))
 			
 		<article>
 		
-		<!---panel logowania admina--->
+		<!---formularz do wpisywania danych logowania (e-mail i hasło)--->
 			<div class="form">
-				<h1>Zaloguj się!</h1>
+				<h1>Zaloguj się jako dostawca!</h1>
 				</br>
-				<form method="post" action="login_admin.php">
+				<form method="post" action="login_deliverer.php">
 					E-mail: <br /> <input type="email" value="<?php
 					if (isset($_SESSION['given_email']))
 					{
@@ -49,13 +43,14 @@ if(isset($_SESSION['logged_id_admin']))
 							
 					Hasło: <br /> <input type="password" name="password" required/><br />
 					<?php
+					//ewentualne wypisanie błędu przy wpisaniu błędnych danych
 					if (isset($_SESSION['e_login']))
 					{
 						echo '<div class="error">'.$_SESSION['e_login'].'</div>';
 						unset($_SESSION['e_login']);
 					}
 					?>
-					
+					</br>
 					<input type="submit" value="Zaloguj się!"/>					
 				</form>
 			</div>

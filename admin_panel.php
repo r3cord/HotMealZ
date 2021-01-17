@@ -56,7 +56,8 @@ if(isset($_SESSION['logged_id_admin']) == false)
 				<form action="admin_panel.php"><input type="submit" value="Zarządzaj ofertami"/></form>
 			</div>
 			
-			<?php 
+			<?php
+			//wypisanie ewentualnego komunikatu o powodzeniu rejestracji dostawcy
 			if(isset($_SESSION['deliverer_registered']))
 			{
 				echo "</br></br>Konto dostawcy zostało dodane!";

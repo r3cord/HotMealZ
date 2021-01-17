@@ -4,6 +4,7 @@ session_start();
 
 if(isset($_POST['email']))
 {
+	//sprawdzenie czy wpisane dane są poprawne - np. czy e-mail odpowiada formatowi e-maila
 	$validation=true;
 		
 	$firstname=$_POST['firstname'];
@@ -74,6 +75,7 @@ if(isset($_POST['email']))
 	{
 		require_once 'connect.php';
 		
+		//sprawdzenie czy w bazie danych nie ma jeszcze takiego dostawcy
 		$query = $connection->prepare('SELECT id FROM deliverers WHERE email = :email');
 		$query->bindValue(':email', $email, PDO::PARAM_STR);
 		$query->execute();
@@ -86,6 +88,7 @@ if(isset($_POST['email']))
 		}
 		else
 		{
+			//znalezienie w bazie danych regionu wybranego w formularzu rejestracji w celu powiązania z nim dostawcy
 			if($region=='=na razie nie przypisuj=')
 			{
 				$id_region = -1;
@@ -97,6 +100,7 @@ if(isset($_POST['email']))
 				$id_region = $_id_region['id'];
 			}
 			
+			//umieszczenie nowego rekordu w bazie
 			$query = $connection->prepare('INSERT INTO deliverers VALUES (NULL, :id_region, :firstname, :secondname, :email, :hashed_password, :phone)');
 			$query->bindValue(':id_region', $id_region, PDO::PARAM_STR);
 			$query->bindValue(':firstname', $firstname, PDO::PARAM_STR);
@@ -116,6 +120,7 @@ if(isset($_POST['email']))
 		
 	if(!$validation)
 	{
+		//ustawienie ,,zmiennych given", by admin nie musiał jeszcze raz wpisywać wszystkich danych
 		$_SESSION['given_firstname'] = $_POST['firstname'];
 		$_SESSION['given_secondname'] = $_POST['secondname'];
 		$_SESSION['given_phone'] = $_POST['phone'];

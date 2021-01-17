@@ -47,6 +47,7 @@ $Qregions = $regionsQuery->fetchAll();
 	
 	<article>
 	
+	<!---formularz rejestracji z ewentualnym wyświetlaniem błędów--->
 		<div class="form">
 			<h1>Dodaj konto dostawcy</h1>
 			</br>
