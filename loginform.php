@@ -55,7 +55,7 @@ session_start();
 						unset($_SESSION['e_login']);
 					}
 					?>
-					
+					<br/>
 					<input type="submit" value="Zaloguj się!"/>					
 				</form>
 				
