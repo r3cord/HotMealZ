@@ -47,7 +47,7 @@ if(!isset($_SESSION['logged_id']))
 			
 			<div class="buttons">
 				<?php
-					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
+					echo '<form action="panel.php"><input type="submit" value="Panel"/></form>';
 				?>
 			</div>
 			<div class="buttons">
@@ -86,13 +86,17 @@ if(!isset($_SESSION['logged_id']))
 									echo "<td>" . $array[$i][4] . "zł</td>";		
 									echo "<td>" . $array[$i][5] . "zł</td>";												
 									echo "<td><form method='post' action='delete_dish_from_cart.php'><input type='submit' value='Usuń' /><input type='hidden' value='".$i."' name='row' /><input type='hidden' name='rest_name' value='cart.php'/></form></td>";
+									
 								echo "</tr>";
 								$sum=$sum+$array[$i][5];
 							}
 							echo "</tbody>	
 				                    </table>
 									<h3>Suma: ".$sum." zł</h3>
-									<form method ='post' action='delete_cart.php'><input type='submit' value='Opróżnij koszyk' /><input type='hidden' name='rest_name' value='cart.php'/></form>";
+									<form method ='post' action='delete_cart.php'><input type='submit' value='Opróżnij koszyk' /><input type='hidden' name='rest_name' value='cart.php'/></form></br>
+									Dodaj uwagi do zamówienia:
+									<form method ='post' action='submit_order.php'><textarea type='text' class='description' name='comments'></textarea></br>
+									<input type='submit' value='Złóż zamówienie' /><input type='hidden' value='".$sum."' name='sum' /></form>";
 						}
 						else echo "Koszyk jest pusty";
 					?>

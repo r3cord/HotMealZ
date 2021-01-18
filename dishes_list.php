@@ -70,7 +70,7 @@ $dishes = $dishesQuery->fetchAll();
 				<?php
 				if(isset($_SESSION['logged_id'])) //Jeżeli zalogowano
 				{
-					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
+					echo '<form action="panel.php"><input type="submit" value="Panel"/></form>';
 				}
 				else //Jeżeli nie jest się zalogowanym
 				{
@@ -116,7 +116,7 @@ $dishes = $dishesQuery->fetchAll();
 									echo "<td>" . $dish['price'] . "zł</td>";
 									if(isset($_SESSION['logged_id']))
 									{
-										echo "<td><form method='post' action='add_to_cart.php'><input class='quantity' type='number' step='1' min='1' max='999' name='quantity' required /><input type='hidden' name='id' value='".$dish['id']."'/><input type='hidden' name='restaurant_id' value='".$restaurant_id['id']."'/><input type='hidden' name='dish_name' value='".$dish['name']."'/><input type='hidden' name='price' value='".$dish['price']."'/><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></td>";
+										echo "<td><form method='post' action='add_to_cart.php'><input type='hidden' name='id' value='".$dish['id']."'/><input type='hidden' name='restaurant_id' value='".$restaurant_id['id']."'/><input type='hidden' name='dish_name' value='".$dish['name']."'/><input type='hidden' name='price' value='".$dish['price']."'/><input type='hidden' name='rest_name' value='".$_GET['rest']."'/><input class='quantity' type='number' step='1' min='1' max='999' name='quantity' required /></td>";
 										echo "<td><input type='submit' value='Dodaj' /></form></td>";										
 									}			
 									else
@@ -172,7 +172,10 @@ $dishes = $dishesQuery->fetchAll();
 							echo "</tbody>	
 				                    </table>
 									<h3>Suma: ".$sum." zł</h3>
-									<form method ='post' action='delete_cart.php'><input type='submit' value='Opróżnij koszyk' /><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></form>";
+									<form method ='post' action='delete_cart.php'><input type='submit' value='Opróżnij koszyk' /><input type='hidden' name='rest_name' value='".$_GET['rest']."'/></form></br>
+									Dodaj uwagi do zamówienia:
+									<form method ='post' action='submit_order.php'><textarea type='text' class='description' name='comments'></textarea></br>
+									<input type='submit' value='Złóż zamówienie' /><input type='hidden' value='".$sum."' name='sum' /></form>";
 							}
 							else
 							{

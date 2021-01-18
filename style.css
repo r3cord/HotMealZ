@@ -116,12 +116,76 @@ th, td
 table 
 {
   border-collapse: collapse;
+  margin: 0 auto;
 }
-
+.quantity
+{
+	width:40px;
+}
+table.fixed_orders
+{
+  table-layout:fixed; 
+  width: 925px;
+}
+table.fixed_orders td, th 
+{
+	padding:3px;
+	overflow:hidden;
+}
+table.fixed_orders td:nth-of-type(1), th:nth-of-type(1) 
+{
+	width:100px;
+}
+table.fixed_orders td:nth-of-type(2), th:nth-of-type(2) 
+{
+	width:150px;
+}
+table.fixed_orders td:nth-of-type(3), th:nth-of-type(3) 
+{
+	width:150px;
+}
+table.fixed_orders td:nth-of-type(4), th:nth-of-type(4) 
+{
+	width:200px;
+}
+table.fixed_orders td:nth-of-type(5), th:nth-of-type(5) 
+{
+	width:75px;
+}
+table.fixed_orders td:nth-of-type(6), th:nth-of-type(6) 
+{
+	width:150px;
+}
+table.fixed_orders td:nth-of-type(7), th:nth-of-type(7) 
+{
+	width:100px;
+}
+table.fixed_rest
+{
+	table-layout:fixed; 
+	width: 825px;
+}
+table.fixed_rest td, th 
+{
+	padding:3px;
+	overflow:hidden;
+}
+table.fixed_rest td:nth-of-type(1), th:nth-of-type(1) 
+{
+	width:150px;
+}
+table.fixed_rest td:nth-of-type(2), th:nth-of-type(2) 
+{
+	width:600px;
+}
+table.fixed_rest td:nth-of-type(3), th:nth-of-type(3) 
+{
+	width:75px;
+}
 table.fixed
 {
   table-layout:fixed; 
-  width: 1200px;
+  width: 950px;
 }
 table.fixed td, th 
 {
@@ -130,11 +194,11 @@ table.fixed td, th
 }
 table.fixed td:nth-of-type(1), th:nth-of-type(1) 
 {
-	width:200px;
+	width:150px;
 }
 table.fixed td:nth-of-type(2), th:nth-of-type(2) 
 {
-	width:800px;
+	width:600px;
 }
 table.fixed td:nth-of-type(3), th:nth-of-type(3) 
 {
@@ -148,14 +212,10 @@ table.fixed td:nth-of-type(5), th:nth-of-type(5)
 {
 	width:50px;
 }
-.quantity
-{
-	width:40px;
-}
 table.fixed_cart
 {
   table-layout:fixed; 
-  width: 1200px;
+  width: 525px;
 }
 table.fixed_cart td, th 
 {
@@ -164,11 +224,11 @@ table.fixed_cart td, th
 }
 table.fixed_cart td:nth-of-type(1), th:nth-of-type(1) 
 {
-	width:200px;
+	width:150px;
 }
-table.fixed_cart td:nth-of-type(1), th:nth-of-type(2) 
+table.fixed_cart td:nth-of-type(2), th:nth-of-type(2) 
 {
-	width:800px;
+	width:150px;
 }
 table.fixed_cart td:nth-of-type(3), th:nth-of-type(3) 
 {
@@ -176,7 +236,7 @@ table.fixed_cart td:nth-of-type(3), th:nth-of-type(3)
 }
 table.fixed_cart td:nth-of-type(4), th:nth-of-type(4) 
 {
-	width:50px;
+	width:75px;
 }
 table.fixed_cart td:nth-of-type(5), th:nth-of-type(5) 
 {

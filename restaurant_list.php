@@ -61,7 +61,7 @@ $restaurants = $restaurantsQuery->fetchAll();
 				<?php
 				if(isset($_SESSION['logged_id']))
 				{
-					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
+					echo '<form action="panel.php"><input type="submit" value="Panel"/></form>';
 				}
 				else
 				{
@@ -84,7 +84,9 @@ $restaurants = $restaurantsQuery->fetchAll();
 			<div class="list">
 			<h1>Restauracje znajdujące się w regionie <?php echo $_POST['region'];?></h1>
 			</br>
-				<table class="fixed">
+					<?php
+					echo "
+					<table class='fixed_rest'>
 					<thead>
 						<tr>
 							<th>Nazwa</th>
@@ -92,27 +94,28 @@ $restaurants = $restaurantsQuery->fetchAll();
 							<th></th>
 						</tr>
 					</thead>
-					<tbody>
-					<?php
+					<tbody>";
 					//Wyświetlenie wszystkich dostępnych restauracji w danym regionie w tabeli
-						if(isset($restaurants))
+					if(isset($restaurants))
+					{
+						foreach ($restaurants as $restaurant) 
 						{
-							foreach ($restaurants as $restaurant) 
-							{
-								echo "<tr>";
-									echo "<td>" . $restaurant['name'] . "</td>";
-									echo "<td>" . $restaurant['description'] . "</td>";				
-									echo "<td><form method='get' action='dishes_list.php'><input type='submit' value='Wybierz'><input type='hidden' value='".$restaurant['name']."' name='rest' /></form></td>";
-								echo "</tr>";
-							}
+							echo "<tr>";
+								echo "<td>" . $restaurant['name'] . "</td>";
+								echo "<td>" . $restaurant['description'] . "</td>";				
+								echo "<td><form method='get' action='dishes_list.php'><input type='submit' value='Wybierz'><input type='hidden' value='".$restaurant['name']."' name='rest' /></form></td>";
+							echo "</tr>";
 						}
-						else
-						{
-							echo "Brak restauracji w tym regionie!";
-						}
-					?>
+					echo "
 					</tbody>
-				</table>
+					</table>";
+					}
+					else
+					{
+						echo "Brak restauracji w tym regionie!";
+					}
+					?>
+					
 			</div>
 		</article>
 	

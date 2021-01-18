@@ -58,7 +58,7 @@ $Qregions = $regionsQuery->fetchAll();
 				<?php
 				if(isset($_SESSION['logged_id']))
 				{
-					echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
+					echo '<form action="panel.php"><input type="submit" value="Panel"/></form>';
 				}
 				else if(isset($_SESSION['logged_id_partner']))
 				{
