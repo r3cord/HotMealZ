@@ -7,7 +7,7 @@ if(isset($_SESSION['logged_id_admin']))
 	{
 		if($_SESSION['logged_id_admin'] == $_GET['admin_id'])
 		{
-			$_SESSION['accounts_message'] = "Nie możesz usunąć konta admina, które jest aktualnie zalogowany!</br> Co, jeśli usuniesz wszystkich adminów? Będziesz dzwonił do nas, żebyśmy dodali nowego admina do bazy danych?</br> Ile ty masz lat? Pięć?";
+			$_SESSION['accounts_message'] = "Nie możesz usunąć konta admina, który jest aktualnie zalogowany!</br> Co, jeśli usuniesz wszystkich adminów? Będziesz dzwonił do nas, żebyśmy dodali nowego admina do bazy danych?</br> Ile ty masz lat? Pięć?";
 			header('Location: accounts_management.php');
 			exit();
 		}

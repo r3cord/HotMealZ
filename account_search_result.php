@@ -1,13 +1,19 @@
 <?php
-
+	
 session_start();
+
 if(isset($_SESSION['logged_id_admin']) == false)
 {
 	header('Location: index.php');
 	exit();
 }
 
-require_once 'connect.php';
+if(!isset($_POST['firstname']))
+{	
+	header('Location: accounts_management.php');
+	exit();
+}
+else require_once 'connect.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,34 +34,37 @@ require_once 'connect.php';
 	</head>
 	
 	<body>	
-		<header>
+	<header>
 
-			<a href="admin_panel.php"><h1>HotMealZ</h1></a>
-
-			
-			<div class="button">
-				<form action="logout_admin.php"><input type="submit" value="Wyloguj się"/></form>
-			</div>
-			
-		</header>
+		<a href="admin_panel.php"><h1>HotMealZ</h1></a>
 		
-		<article>
+		<div class="button">
+		<form action="logout_admin.php"><input type="submit" value="Wyloguj się"/></form>
+		</div>
+		
+		<div class="button">
+		<form action="admin_panel.php"><input type="submit" value="Powrót do panelu admina"/></form>
+		</div>
+		
+	</header>
+	
+	<div class="button">
+	<form action="accounts_management.php"><input type="submit" value="Powrót do listy wszystkich kont"/></form>
+	</div>
+	
+	<div class="button">
+	<form action="account_search.php"><input type="submit" value="Wyszukaj inne konto"/></form>
+	</div>
+	
+	</br>
+	
+	<article>
+			<!---informacja dla admina o wpisanych przez niego wyrazach--->
+			<?= "Wyszukujesz</br>imię: ".$_POST['firstname']."</br>nazwisko: ".$_POST['secondname']."</br>e-mail: ".$_POST['email'] ?>
 			
-			<div class="button">
-				<form action="account_search.php"><input type="submit" value="Wyszukaj konto"/></form>
-			</div>
-			
-			</br>
-			<?php
-			//wyświetlenie ewentualnego komunikatu z powodzenia operacji interaktywnych
-			if(isset($_SESSION['accounts_message'])) 
-			{
-				echo $_SESSION['accounts_message']."</br></br>";
-				unset($_SESSION['accounts_message']);
-			}
-			?>
-			
-			<!---wyświetlenie w tabeli kont użytkowników--->
+			</br></br>
+	
+			<!---wyświetlenie w tabeli kont użytkowników z interesującymi danymi--->
 			<table BORDER>
 					<thead>
 						<tr><td>KONTA UŻYTKOWNIKÓW</td></tr>
@@ -64,7 +73,7 @@ require_once 'connect.php';
 					
 					<tbody>
 					<?php 
-						$usersQuery = $connection->query('SELECT id, firstname, secondname, email, phone, address, postcode, city FROM users');
+						$usersQuery = $connection->query('SELECT id, firstname, secondname, email, phone, address, postcode, city FROM users WHERE firstname LIKE "%'.$_POST['firstname'].'%" AND secondname LIKE "%'.$_POST['secondname'].'%" AND email LIKE "%'.$_POST['email'].'%"');
 						$users = $usersQuery->fetchAll();
 						
 						foreach($users as $user)
@@ -91,7 +100,7 @@ require_once 'connect.php';
 			
 			</br></br>
 			
-			<!---wyświetlenie w tabeli kont partnerów--->
+			<!---wyświetlenie w tabeli kont partnerów z interesującymi danymi--->
 			<table BORDER>
 					<thead>
 						<tr><td>KONTA PARTNERÓW</td></tr>
@@ -100,7 +109,7 @@ require_once 'connect.php';
 					
 					<tbody>
 					<?php 
-						$partnersQuery = $connection->query('SELECT id, firstname, secondname, email FROM partners');
+						$partnersQuery = $connection->query('SELECT id, firstname, secondname, email FROM partners WHERE firstname LIKE "%'.$_POST['firstname'].'%" AND secondname LIKE "%'.$_POST['secondname'].'%" AND email LIKE "%'.$_POST['email'].'%"');
 						$partners = $partnersQuery->fetchAll();
 						
 						foreach($partners as $partner)
@@ -127,7 +136,7 @@ require_once 'connect.php';
 			
 			</br></br>
 			
-			<!---wyświetlenie w tabeli kont dostawców--->
+			<!---wyświetlenie w tabeli kont dostawców z interesującymi danymi--->
 			<table BORDER>
 					<thead>
 						<tr><td>KONTA DOSTAWCÓW</td></tr>
@@ -136,7 +145,7 @@ require_once 'connect.php';
 					
 					<tbody>
 					<?php 
-						$deliverersQuery = $connection->query('SELECT id, id_region, firstname, secondname, email, phone FROM deliverers');
+						$deliverersQuery = $connection->query('SELECT id, id_region, firstname, secondname, email, phone FROM deliverers WHERE firstname LIKE "%'.$_POST['firstname'].'%" AND secondname LIKE "%'.$_POST['secondname'].'%" AND email LIKE "%'.$_POST['email'].'%"');
 						$deliverers = $deliverersQuery->fetchAll();
 						
 						foreach($deliverers as $deliverer)
@@ -169,34 +178,34 @@ require_once 'connect.php';
 			
 			</br></br>
 			
-			<!---wyświetlenie w tabeli kont administratorów--->
+			<!---wyświetlenie w tabeli kont administratorów z interesującymi danymi--->
 			<table BORDER>
 					<thead>
 						<tr><td>KONTA ADMINISTRATORÓW</td></tr>
 						<tr><td>e-mail</td></tr>
 					</thead>
 					
-					<tbody>
-					<?php 
-						$adminsQuery = $connection->query('SELECT id, email FROM admins');
-						$admins = $adminsQuery->fetchAll();
-						
-						foreach($admins as $admin)
+					<?php
+						//admin ma tylko e-mail, więc trzeba sprawdzić najpierw czy w ogóle konta admina szukał wpisujący - jeśli wpisał imię i/lub nazwisko, to znaczy, że nie
+						if($_POST['firstname'] == "" && $_POST['secondname'] == "")
 						{
-							echo "<tr>
-							<td>{$admin['email']}</td>
-							<td>
-							<div class='button'>
-							<a href='admin_account_delete.php?admin_id={$admin['id']}&mail={$admin['email']}'>Usuń konto</a>
-							</div>		
-							</td></tr>";
+							$adminsQuery = $connection->query('SELECT id, email FROM admins WHERE email LIKE "%'.$_POST['email'].'%"');
+							$admins = $adminsQuery->fetchAll();
+							
+							foreach($admins as $admin)
+							{
+								echo "<tbody><tr>
+								<td>{$admin['email']}</td>
+								<td>
+								<div class='button'>
+								<a href='admin_account_delete.php?admin_id={$admin['id']}&mail={$admin['email']}'>Usuń konto</a>
+								</div>		
+								</td></tr></tbody>";
+							}
 						}
 					?>
-					</tbody>
 			</table>
-			
-		</article>
-	
+	</article>
 	</body>
 
 </html>
