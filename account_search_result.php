@@ -73,8 +73,13 @@ else require_once 'connect.php';
 					
 					<tbody>
 					<?php 
-						$usersQuery = $connection->query('SELECT id, firstname, secondname, email, phone, address, postcode, city FROM users WHERE firstname LIKE "%'.$_POST['firstname'].'%" AND secondname LIKE "%'.$_POST['secondname'].'%" AND email LIKE "%'.$_POST['email'].'%"');
+						$usersQuery = $connection->prepare('SELECT id, firstname, secondname, email, phone, address, postcode, city FROM users WHERE firstname LIKE CONCAT("%", :firstname, "%") AND secondname LIKE CONCAT("%", :secondname, "%") AND email LIKE CONCAT("%", :email, "%")');
+						$usersQuery->bindValue(':firstname', $_POST['firstname'], PDO::PARAM_STR);
+						$usersQuery->bindValue(':secondname', $_POST['secondname'], PDO::PARAM_STR);
+						$usersQuery->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+						$usersQuery->execute();
 						$users = $usersQuery->fetchAll();
+						$usersQuery=NULL;
 						
 						foreach($users as $user)
 						{
@@ -108,9 +113,14 @@ else require_once 'connect.php';
 					</thead>
 					
 					<tbody>
-					<?php 
-						$partnersQuery = $connection->query('SELECT id, firstname, secondname, email FROM partners WHERE firstname LIKE "%'.$_POST['firstname'].'%" AND secondname LIKE "%'.$_POST['secondname'].'%" AND email LIKE "%'.$_POST['email'].'%"');
+					<?php 					
+						$partnersQuery = $connection->prepare('SELECT id, firstname, secondname, email FROM partners WHERE firstname LIKE CONCAT("%", :firstname, "%") AND secondname LIKE CONCAT("%", :secondname, "%") AND email LIKE CONCAT("%", :email, "%")');
+						$partnersQuery->bindValue(':firstname', $_POST['firstname'], PDO::PARAM_STR);
+						$partnersQuery->bindValue(':secondname', $_POST['secondname'], PDO::PARAM_STR);
+						$partnersQuery->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+						$partnersQuery->execute();
 						$partners = $partnersQuery->fetchAll();
+						$partnersQuery=NULL;
 						
 						foreach($partners as $partner)
 						{
@@ -144,9 +154,14 @@ else require_once 'connect.php';
 					</thead>
 					
 					<tbody>
-					<?php 
-						$deliverersQuery = $connection->query('SELECT id, id_region, firstname, secondname, email, phone FROM deliverers WHERE firstname LIKE "%'.$_POST['firstname'].'%" AND secondname LIKE "%'.$_POST['secondname'].'%" AND email LIKE "%'.$_POST['email'].'%"');
+					<?php
+						$deliverersQuery = $connection->prepare('SELECT id, id_region, firstname, secondname, email, phone FROM deliverers WHERE firstname LIKE CONCAT("%", :firstname, "%") AND secondname LIKE CONCAT("%", :secondname, "%") AND email LIKE CONCAT("%", :email, "%")');
+						$deliverersQuery->bindValue(':firstname', $_POST['firstname'], PDO::PARAM_STR);
+						$deliverersQuery->bindValue(':secondname', $_POST['secondname'], PDO::PARAM_STR);
+						$deliverersQuery->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+						$deliverersQuery->execute();
 						$deliverers = $deliverersQuery->fetchAll();
+						$deliverersQuery=NULL;
 						
 						foreach($deliverers as $deliverer)
 						{
@@ -189,8 +204,11 @@ else require_once 'connect.php';
 						//admin ma tylko e-mail, więc trzeba sprawdzić najpierw czy w ogóle konta admina szukał wpisujący - jeśli wpisał imię i/lub nazwisko, to znaczy, że nie
 						if($_POST['firstname'] == "" && $_POST['secondname'] == "")
 						{
-							$adminsQuery = $connection->query('SELECT id, email FROM admins WHERE email LIKE "%'.$_POST['email'].'%"');
+							$adminsQuery = $connection->prepare('SELECT id, email FROM admins WHERE email LIKE CONCAT("%", :email, "%")');
+							$adminsQuery->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+							$adminsQuery->execute();
 							$admins = $adminsQuery->fetchAll();
+							$adminsQuery=NULL;
 							
 							foreach($admins as $admin)
 							{
