@@ -9,6 +9,15 @@ if(isset($_SESSION['logged_id_admin']))
 }
 
 require_once 'connect.php';
+
+//sprawdzenie czy użytkownik nie dostał bana w czasie aktualnej sesji i ewentualne wylogowanie go
+if(isset($_SESSION['logged_id']))
+{
+	$banQuery = $connection->query('SELECT ban FROM users WHERE id LIKE "'.$_SESSION['logged_id'].'"');
+	$banQ = $banQuery->fetch();
+	if ($banQ['ban'] > date('Y-m-d H:i:s')) unset($_SESSION['logged_id']);
+}
+
 $regionsQuery = $connection->query('SELECT name FROM regions');
 $Qregions = $regionsQuery->fetchAll();
 ?>

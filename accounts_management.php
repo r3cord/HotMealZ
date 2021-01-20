@@ -59,12 +59,12 @@ require_once 'connect.php';
 			<table BORDER>
 					<thead>
 						<tr><td>KONTA UŻYTKOWNIKÓW</td></tr>
-						<tr><td>Imię</td><td>Nazwisko</td><td>e-mail</td><td>Numer telefonu</td><td>Adres</td></tr>
+						<tr><td>Imię</td><td>Nazwisko</td><td>e-mail</td><td>Numer telefonu</td><td>Adres</td><td>Data wygaśnięcia bana</td></tr>
 					</thead>
 					
 					<tbody>
 					<?php 
-						$usersQuery = $connection->query('SELECT id, firstname, secondname, email, phone, address, postcode, city FROM users');
+						$usersQuery = $connection->query('SELECT id, firstname, secondname, email, phone, address, postcode, city, ban FROM users');
 						$users = $usersQuery->fetchAll();
 						
 						foreach($users as $user)
@@ -74,6 +74,7 @@ require_once 'connect.php';
 							<td>{$user['email']}</td>
 							<td>{$user['phone']}</td>
 							<td>{$user['address']}, {$user['postcode']} {$user['city']}</td>
+							<td>{$user['ban']}</td>
 							<td>
 							<div class='button'>
 							<a href='banform.php?user_id={$user['id']}&firstname={$user['firstname']}&secondname={$user['secondname']}'>Zbanuj</a>
