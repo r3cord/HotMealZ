@@ -7,9 +7,31 @@ if(isset($_POST['comments']) && isset($_POST['sum']) && isset($_SESSION['cart'])
 	$null = null;
 	$date = date("Y-m-d H:i:s"); //Pobranie aktualnej daty
 	//Przygotowanie i wykonanie odpowiedniego zapytania do bazy MySQL (wstawienie zamówienia do tabeli orders)
-	$addOrderQuery = $connection->prepare('INSERT INTO orders VALUES (NULL, :restaurant_id, :user_id, 0, "w trakcie przygotowania", :price, :date, :deliverydate, now()+INTERVAL 1 DAY, 0, :note)');
+	$addOrderQuery = $connection->prepare('INSERT INTO orders VALUES (NULL, :restaurant_id, :user_id, :deliverer_id, "w trakcie przygotowania", :price, :date, :deliverydate, now()+INTERVAL 1 DAY, 0, :note)');
 	$addOrderQuery->bindValue(':restaurant_id', $_SESSION['cart'][0][0], PDO::PARAM_INT);
 	$addOrderQuery->bindValue(':user_id', $_SESSION['logged_id'], PDO::PARAM_INT);
+	
+	//znalezienie regionu, w którym jest lokal w celu znalezienia dostawców z tego regionu
+	$restaurantQuery = $connection->query('SELECT id_region FROM restaurants WHERE id LIKE "'.$_SESSION['cart'][0][0].'"');
+	$restaurantQ = $restaurantQuery->fetch();
+	//pobranie z bazy danych informacji o dostawcach z regionu, w którym jest restauracja wykonująca zamówienie o zmienianym statusie w celu policzenia, który dostawca ma najmniej aktualnych zamówień (ten dostanie nowe zamówienie)
+	$deliverersQuery = $connection->query('SELECT * FROM deliverers WHERE id_region LIKE "'.$restaurantQ['id_region'].'"');
+	$deliverers = $deliverersQuery->fetchAll();
+	//znalezienie dostawcy z najmniejszą liczbą aktualnych zamówień
+	$min = 99999;
+	$min_id = -1;
+	foreach ($deliverers as $del)
+	{
+		$delQuery = $connection->query('SELECT id FROM orders WHERE id_deliverer LIKE "'.$del['id'].'" AND (status LIKE "w trakcie przygotowania" OR status LIKE "w trakcie dostawy" OR status LIKE "oczekujące")');
+		$a = $delQuery->rowCount();
+		if ($a < $min) 
+		{
+			$min = $a;
+			$min_id = $del['id'];
+		}
+	}
+	$addOrderQuery->bindValue(':deliverer_id', $min_id, PDO::PARAM_INT);
+	
 	$addOrderQuery->bindValue(':price', $_POST['sum'], PDO::PARAM_STR);
 	$addOrderQuery->bindValue(':date', $date, PDO::PARAM_STR);
 	$addOrderQuery->bindValue(':deliverydate', $null, PDO::PARAM_NULL);

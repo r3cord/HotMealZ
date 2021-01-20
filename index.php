@@ -129,7 +129,7 @@ $Qregions = $regionsQuery->fetchAll();
 									<td>{$order['note']}</td>
 									<td>
 									<div class='button'>
-									<a href='order_status_update1.php?order_id={$order['id']}&region_id={$your_restaurant['id_region']}'>Zmień status na |oczekujące|</a>
+									<a href='order_status_update1.php?order_id={$order['id']}'>Zmień status na |oczekujące|</a>
 									</div>
 								</td></tr>";
 							}
