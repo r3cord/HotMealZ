@@ -5,6 +5,7 @@ if(!isset($_SESSION['logged_id']))
 	header('Location: index.php');
 }
 require_once 'connect.php';
+//Pobranie odpowiednich danych dotyczących złożonych zamówień
 $ordersQuery = $connection->query('SELECT * FROM orders WHERE id_user='.$_SESSION['logged_id'].' ORDER BY order_date DESC');
 $orders = $ordersQuery->fetchAll();
 ?>
@@ -35,29 +36,33 @@ $orders = $ordersQuery->fetchAll();
 			</div>
 			
 			<div class="buttons">
-				<?php
-				echo '<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>';
-				?>
+				<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>
 			</div>
 			<div class="buttons">
-				<?php
-				echo '<form action="index.php"><input type="submit" value="Panel"/></form>';
-				?>
+				<form action="panel.php"><input type="submit" value="Panel"/></form>
 			</div>
 			<div class="buttons">
-				<?php
-				echo '<form action="cart.php"><input type="submit" value="Koszyk"/></form>';
-				?>
+				<form action="cart.php"><input type="submit" value="Koszyk"/></form>
 			</div>
 			
 		</header>
 		
 		<article>
-		<div class="list">
+		<div class="list" style="min-width:300px;">
 			<h1>Twoje zamówienia</h1>
 			<?php
+			if(isset($_SESSION['complaint_success'])) //Informacja zwrotna po złożeniu reklamacji
+			{
+				echo "<p>".$_SESSION['complaint_success']."</p>";
+				unset($_SESSION['complaint_success']);
+			}
+			if(isset($_SESSION['order_success'])) //Informacja zwrotna po złożeniu zamówienia
+			{
+				echo "<p>".$_SESSION['order_success']."</p>";
+				unset($_SESSION['order_success']);
+			}
 			$date = date("Y-m-d H:i:s");
-			if($ordersQuery->rowCount()>0)
+			if($ordersQuery->rowCount()>0) //Sprawdzenie, czy użytkownik ma jakieś zamówienia
 			{
 				echo "<table class='fixed_orders'>
 						   <thead>
@@ -71,7 +76,7 @@ $orders = $ordersQuery->fetchAll();
 									<td>Reklamacja</td>
 								 </tr>
 						   </thead>";
-				foreach ($orders as $order) 
+				foreach ($orders as $order)  //Wypisanie wszystkich złożonych zamówień przez użytkownika
 				{
 					echo "<tbody>";
 					echo "<tr>";
@@ -84,12 +89,15 @@ $orders = $ordersQuery->fetchAll();
 								{
 									echo "<td>Niedostarczone</td>";
 								}
+					//Pobranie nazwy restauracji
 					$restaurantQuery = $connection->query('SELECT name FROM restaurants WHERE id='.$order['id_restaurant']);
 					$restaurant = $restaurantQuery->fetch();
 					echo"<td>".$restaurant['name']."</td>";
+					//Pobranie dań zamówionych w konkretnym zamówieniu
 					$dishes_listQuery = $connection->query('SELECT * FROM od_connections WHERE id_order LIKE "'.$order['id'].'"');
 					$dishes_list = $dishes_listQuery->fetchAll();
 					echo "<td>";
+					//Wypisanie dań
 					foreach ($dishes_list as $dish)
 					{
 						$dishesQuery = $connection->query('SELECT name FROM dishes WHERE id LIKE "'.$dish['id_dish'].'"');
@@ -99,13 +107,24 @@ $orders = $ordersQuery->fetchAll();
 					echo "</td>";
 					echo "<td>".$order['price']." zł</td>";	
 					echo "<td>".$order['status']."</td>";
-					if($date>$order['max_complaint_date'])
+					//Pobranie statusu reklamacji
+					$complaintQuery = $connection->query('SELECT status FROM reclamations WHERE id_order='.$order['id']);
+					if($complaintQuery->rowCount()>0) //Sprawdzenie, czy reklamacja dla danego zamówienia istnieje i czy jest możliwa
+					{
+						$status = $complaintQuery->fetch();
+						echo "<td>".$status['status']."</td>";
+					}
+					else if($date>$order['max_complaint_date'])
 					{
 						echo "<td>Wygasła</td>";
 					}
+					else if($order['delivery_date']==null)
+					{
+						echo "<td>Niemożliwa</td>";
+					}
 					else 
 					{
-						echo "<td><form method='post' action='complaint.php'><input type='submit' value='Zareklamuj'></form></td>";
+						echo "<td><form method='post' action='complaint.php'><input type='submit' value='Zareklamuj'/><input type='hidden' value='".$order['id']."' name='id_order'/><input type='hidden' value='".$restaurant['name']."' name='restaurant_name'/><input type='hidden' value='".$order['order_date']."' name='order_date'/><input type='hidden' value='".$order['price']."' name='price'/><input type='hidden' value='".$order['id_restaurant']."' name='id_restaurant'/></form></td>";
 					}
 					echo "<tr>";
 					echo "</tbody>";			
