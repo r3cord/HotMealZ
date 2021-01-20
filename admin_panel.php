@@ -45,11 +45,11 @@ if(isset($_SESSION['logged_id_admin']) == false)
 			</div>
 			
 			<div class="button">
-				<form action="admin_panel.php"><input type="submit" value="Zarządzaj dostawcami"/></form>
+				<form action="deliverers_management.php"><input type="submit" value="Zarządzaj dostawcami"/></form>
 			</div>
 			
 			<div class="button">
-				<form action="admin_panel.php"><input type="submit" value="Zarządzaj kontami"/></form>
+				<form action="accounts_management.php"><input type="submit" value="Zarządzaj kontami"/></form>
 			</div>
 			
 			<div class="button">
