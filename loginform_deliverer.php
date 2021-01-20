@@ -2,6 +2,11 @@
 
 session_start();
 
+if(isset($_SESSION['logged_id_admin']))
+{
+	header('Location: admin_panel.php');
+	exit();
+}
 ?>
 
 <!DOCTYPE html>

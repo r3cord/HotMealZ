@@ -2,6 +2,12 @@
 
 session_start();
 
+if(isset($_SESSION['logged_id_admin']))
+{
+	header('Location: admin_panel.php');
+	exit();
+}
+
 require_once 'connect.php';
 $regionsQuery = $connection->query('SELECT name FROM regions');
 $Qregions = $regionsQuery->fetchAll();
