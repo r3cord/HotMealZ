@@ -30,15 +30,18 @@ require_once 'connect.php';
 	<body>	
 		<header>
 
-			<a href="index.php"><h1>HotMealZ</h1></a>
-
-			
-			<div class="button">
-				<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>
+			<div class="logo">
+				<a href="index.php"><h1>HotMealZ</h1></a>
 			</div>
 			
-			<div class="button">
+			<div class="buttons">
+				<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>
+			</div>
+			<div class="buttons">
 				<form action="restaurant_offer_changeform.php"><input type="submit" value="Powrót do zmiany oferty"/></form>
+			</div>
+			<div class="buttons">
+				<form action="complaint_panel.php"><input type="submit" value="Reklamacje"/></form>
 			</div>
 			
 		</header>

@@ -38,15 +38,18 @@ $your_offer = $offerQuery->fetchAll();
 	<body>	
 		<header>
 
-			<a href="index.php"><h1>HotMealZ</h1></a>
+			<div class="logo">
+				<a href="index.php"><h1>HotMealZ</h1></a>
+			</div>
 
-			
-			<div class="button">
+			<div class="buttons">
 				<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>
 			</div>
-			
-			<div class="button">
-				<form action="restaurant_panel.php"><input type="submit" value="Powrót do panelu"/></form>
+			<div class="buttons">
+				<form action="restaurant_panel.php"><input type="submit" value="Panel lokalu"/></form>
+			</div>
+			<div class="buttons">
+				<form action="complaint_panel.php"><input type="submit" value="Reklamacje"/></form>
 			</div>
 			
 		</header>
