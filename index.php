@@ -77,6 +77,10 @@ $Qregions = $regionsQuery->fetchAll();
 				if(isset($_SESSION['logged_id']))
 				{
 					echo '<form action="cart.php"><input type="submit" value="Koszyk"/></form>';
+				}	
+				else if(isset($_SESSION['logged_id_partner']))
+				{
+					echo '<form action="complaint_panel.php"><input type="submit" value="Reklamacje"/></form>';
 				}
 				?>
 			</div>

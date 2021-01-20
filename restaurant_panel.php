@@ -29,15 +29,18 @@ if(isset($_SESSION['logged_id_partner']) == false)
 	<body>	
 		<header>
 
-			<a href="index.php"><h1>HotMealZ</h1></a>
+			<div class="logo">
+				<a href="index.php"><h1>HotMealZ</h1></a>
+			</div>
 
-			
-			<div class="button">
+			<div class="buttons">
 				<form action="logout_partner.php"><input type="submit" value="Wyloguj się"/></form>
 			</div>
-			
-			<div class="button">
+			<div class="buttons">
 				<form action="index.php"><input type="submit" value="Bieżące zamówienia"/></form>
+			</div>
+			<div class="buttons">
+				<form action="complaint_panel.php"><input type="submit" value="Reklamacje"/></form>
 			</div>
 			
 		</header>

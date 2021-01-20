@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['logged_id']))
+if(!isset($_SESSION['logged_id'])) //Na tę stronę może wejść tylko użytkownik
 {
 	header('Location: index.php');
 	exit();
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -37,23 +34,15 @@ if(!isset($_SESSION['logged_id']))
 			<div class="logo">
 				<a href="index.php"><h1>HotMealZ</h1></a>
 			</div>
-
 			
 			<div class="buttons">
-				<?php
-					echo '<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>';
-				?>
-			</div>
-			
-			<div class="buttons">
-				<?php
-					echo '<form action="panel.php"><input type="submit" value="Panel"/></form>';
-				?>
+				<form action="logout.php"><input type="submit" value="Wyloguj się"/></form>
 			</div>
 			<div class="buttons">
-				<?php
-					echo '<form action="cart.php"><input type="submit" value="Koszyk"/></form>';
-				?>
+				<form action="panel.php"><input type="submit" value="Panel"/></form>
+			</div>
+			<div class="buttons">
+				<form action="cart.php"><input type="submit" value="Koszyk"/></form>
 			</div>
 		</header>
 		
@@ -61,7 +50,7 @@ if(!isset($_SESSION['logged_id']))
 			<div class="list" >
 				<h1>Koszyk:</h1>			
 					<?php 
-						if(isset($_SESSION['cart']) && isset($_SESSION['cart'][0]))
+						if(isset($_SESSION['cart']) && isset($_SESSION['cart'][0])) //Sprawdzenie czy koszyk jest pusty
 						{
 								echo "
 								<table class='fixed_cart'>
@@ -78,6 +67,7 @@ if(!isset($_SESSION['logged_id']))
 							$array = $_SESSION['cart'];
 							$count = count($array);
 							$sum=0;
+							//Wypisanie całej zawartości koszyka
 							for($i=0; $i<$count; $i++)
 							{
 								echo "<tr>";
