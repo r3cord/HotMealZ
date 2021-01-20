@@ -2,7 +2,12 @@
 
 session_start();
 
-if(isset($_SESSION['logged_id_admin']))
+if(isset($_SESSION['logged_id']) || isset($_SESSION['logged_id_partner']) || isset($_SESSION['logged_id_deliverer']))
+{
+	header('Location: index.php');
+	exit();
+}
+else if(isset($_SESSION['logged_id_admin']))
 {
 	header('Location: admin_panel.php');
 	exit();
