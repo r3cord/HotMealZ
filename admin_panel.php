@@ -57,7 +57,7 @@ if(isset($_SESSION['logged_id_admin']) == false)
 			</div>
 			
 			<div class="button">
-				<form action="admin_panel.php"><input type="submit" value="Zarządzaj ofertami"/></form>
+				<form action="offer_management.php"><input type="submit" value="Zarządzaj ofertami"/></form>
 			</div>
 			
 			<?php
