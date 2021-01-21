@@ -68,12 +68,12 @@ else require_once 'connect.php';
 			<table BORDER>
 					<thead>
 						<tr><td>KONTA UŻYTKOWNIKÓW</td></tr>
-						<tr><td>Imię</td><td>Nazwisko</td><td>e-mail</td><td>Numer telefonu</td><td>Adres</td></tr>
+						<tr><td>Imię</td><td>Nazwisko</td><td>e-mail</td><td>Numer telefonu</td><td>Adres</td><td>Data wygaśnięcia bana</td></tr>
 					</thead>
 					
 					<tbody>
 					<?php 
-						$usersQuery = $connection->prepare('SELECT id, firstname, secondname, email, phone, address, postcode, city FROM users WHERE firstname LIKE CONCAT("%", :firstname, "%") AND secondname LIKE CONCAT("%", :secondname, "%") AND email LIKE CONCAT("%", :email, "%")');
+						$usersQuery = $connection->prepare('SELECT id, firstname, secondname, email, phone, address, postcode, city, ban FROM users WHERE firstname LIKE CONCAT("%", :firstname, "%") AND secondname LIKE CONCAT("%", :secondname, "%") AND email LIKE CONCAT("%", :email, "%")');
 						$usersQuery->bindValue(':firstname', $_POST['firstname'], PDO::PARAM_STR);
 						$usersQuery->bindValue(':secondname', $_POST['secondname'], PDO::PARAM_STR);
 						$usersQuery->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
@@ -88,6 +88,7 @@ else require_once 'connect.php';
 							<td>{$user['email']}</td>
 							<td>{$user['phone']}</td>
 							<td>{$user['address']}, {$user['postcode']} {$user['city']}</td>
+							<td>{$user['ban']}</td>
 							<td>
 							<div class='button'>
 							<a href='banform.php?user_id={$user['id']}&firstname={$user['firstname']}&secondname={$user['secondname']}'>Zbanuj</a>

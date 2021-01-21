@@ -115,7 +115,7 @@ if(isset($_POST['email']))
 		}
 		else
 		{
-			$query = $connection->prepare('INSERT INTO users VALUES (NULL, :firstname, :secondname, :email, :hashed_password, :phone, :address, :postcode, :city)');
+			$query = $connection->prepare('INSERT INTO users VALUES (NULL, :firstname, :secondname, :email, :hashed_password, :phone, :address, :postcode, :city, NULL)');
 			$query->bindValue(':firstname', $firstname, PDO::PARAM_STR);
 			$query->bindValue(':secondname', $secondname, PDO::PARAM_STR);
 			$query->bindValue(':email', $email, PDO::PARAM_STR);

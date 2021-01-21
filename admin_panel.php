@@ -41,6 +41,10 @@ if(isset($_SESSION['logged_id_admin']) == false)
 		<article>
 			
 			<div class="button">
+				<form action="registerform_admin.php"><input type="submit" value="Dodaj konto administratora"/></form>
+			</div>
+			
+			<div class="button">
 				<form action="registerform_deliverer.php"><input type="submit" value="Dodaj konto dostawcy"/></form>
 			</div>
 			
@@ -62,6 +66,11 @@ if(isset($_SESSION['logged_id_admin']) == false)
 			{
 				echo "</br></br>Konto dostawcy zostało dodane!";
 				unset($_SESSION['deliverer_registered']);
+			}
+			else if(isset($_SESSION['admin_registered']))
+			{
+				echo "</br></br>Konto administratora zostało dodane!";
+				unset($_SESSION['admin_registered']);
 			}
 			?>
 			

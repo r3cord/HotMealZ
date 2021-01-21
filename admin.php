@@ -60,6 +60,7 @@ else if(isset($_SESSION['logged_id']) || isset($_SESSION['logged_id_partner']) |
 					}
 					?>
 					
+					</br>
 					<input type="submit" value="Zaloguj się!"/>					
 				</form>
 			</div>
