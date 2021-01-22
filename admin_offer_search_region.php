@@ -34,13 +34,15 @@ $Qregions = $regionsQuery->fetchAll();
 	<body>	
 	<header>
 
-		<a href="admin_panel.php"><h1>HotMealZ</h1></a>
+		<div class="logo">
+			<a href="admin_panel.php"><h1>HotMealZ</h1></a>
+		</div>
 		
-		<div class="button">
+		<div class="buttons">
 		<form action="logout_admin.php"><input type="submit" value="Wyloguj się"/></form>
 		</div>
 			
-		<div class="button">
+		<div class="buttons">
 		<form action="offer_management.php"><input type="submit" value="Powrót do listy wszystkich lokali"/></form>
 		</div>
 		

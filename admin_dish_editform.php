@@ -55,20 +55,21 @@ else
 	<body>	
 		<header>
 
-			<a href="admin_panel.php"><h1>HotMealZ</h1></a>
-
+			<div class="logo">
+				<a href="admin_panel.php"><h1>HotMealZ</h1></a>
+			</div>
 			
-			<div class="button">
+			<div class="buttons">
 				<form action="logout_admin.php"><input type="submit" value="Wyloguj się"/></form>
 			</div>
 			
-			<div class="button">
+			<div class="buttons">
 				<form action="restaurant_offer_changeform.php"><input type="submit" value="Powrót do zmiany oferty"/></form>
 			</div>
-			<div class="button">
+			<div class="buttons">
 				<form action="admin_panel.php"><input type="submit" value="Powrót do panelu admina"/></form>
 			</div>
-			<div class="button">
+			<div class="buttons">
 				<form action="offer_management.php"><input type="submit" value="Powrót do listy wszystkich lokali"/></form>
 			</div>
 			

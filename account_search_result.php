@@ -36,13 +36,15 @@ else require_once 'connect.php';
 	<body>	
 	<header>
 
-		<a href="admin_panel.php"><h1>HotMealZ</h1></a>
+		<div class="logo">
+			<a href="admin_panel.php"><h1>HotMealZ</h1></a>
+		<div class="logo">
 		
-		<div class="button">
+		<div class="buttons">
 		<form action="logout_admin.php"><input type="submit" value="Wyloguj się"/></form>
 		</div>
 		
-		<div class="button">
+		<div class="buttons">
 		<form action="admin_panel.php"><input type="submit" value="Powrót do panelu admina"/></form>
 		</div>
 		
