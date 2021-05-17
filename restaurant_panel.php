@@ -55,6 +55,24 @@ if(isset($_SESSION['logged_id_partner']) == false)
 				<form action="restaurant_offer_changeform.php"><input type="submit" value="Zmień ofertę lokalu"/></form>
 			</div>
 			
+			</br>
+			<form method="post" action="discount.php">
+			Procent przeceny: <br /> <input type="number" step="1" min="0" max="80" name="percentage" required/><input type="submit" value="Przeceń"/><br />
+			</form>
+			
+			</br>
+			<form action="discount_end.php">
+			<input type="submit" value="Skończ przecenę"/><br />
+			</form>
+			
+			<?php
+				if (isset($_SESSION['e_discount']))
+				{
+					echo '<div class="error">'.$_SESSION['e_discount'].'</div>';
+					unset($_SESSION['e_discount']);
+				}
+			?>
+			
 		</article>
 	
 	</body>
