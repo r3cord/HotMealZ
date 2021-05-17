@@ -61,20 +61,17 @@ require_once 'connect.php';
 					
 					<tbody>
 					<?php 
-						$restaurantsQuery = $connection->query('SELECT id, id_region, name, description FROM restaurants');
+						$restaurantsQuery = $connection->query('SELECT restaurants.id AS "one", restaurants.name AS "two", restaurants.description AS "three", regions.name AS "four" FROM restaurants INNER JOIN regions ON restaurants.id_region = regions.id');
 						$restaurants = $restaurantsQuery->fetchAll();
 						
 						foreach($restaurants as $restaurant)
 						{
-							echo "<tr><td>{$restaurant['name']}</td>
-							<td>{$restaurant['description']}</td>";
-							
-							$regionQuery = $connection->query('SELECT name FROM regions WHERE id LIKE "'.$restaurant['id_region'].'"');
-							$region = $regionQuery->fetch();
-							echo "<td>{$region['name']}</td>
+							echo "<tr><td>{$restaurant['two']}</td>
+							<td>{$restaurant['three']}</td>
+							<td>{$restaurant['four']}</td>
 							<td>
 							<div class='button'>
-							<a href='admin_restaurant_offer_changeform.php?restaurant_id={$restaurant['id']}'>Przejdź do oferty tego lokalu</a>
+							<a href='admin_restaurant_offer_changeform.php?restaurant_id={$restaurant['one']}'>Przejdź do oferty tego lokalu</a>
 							</div>		
 							</td></tr>";
 						}
