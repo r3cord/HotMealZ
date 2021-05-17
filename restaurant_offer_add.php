@@ -21,7 +21,7 @@ if(isset($_POST['dishname']))
 		$your_restaurant = $restaurantQuery->fetch();
 		
 		//kwerenda SQL dodająca danie do bazy; dodawanie danie ma parametry wpisane przez Partnera, a także id_restaurant pobrane z bazy danych, dzięki czemu możliwe jest powiązanie dania z restauracją Partnera
-		$query = $connection->prepare('INSERT INTO dishes VALUES (NULL, '.$your_restaurant['id'].', :name, :price, :description, "")');
+		$query = $connection->prepare('INSERT INTO dishes VALUES (NULL, '.$your_restaurant['id'].', :name, :price, NULL, :description, "")');
 		$query->bindValue(':name', $_POST['dishname'], PDO::PARAM_STR);
 		$query->bindValue(':price', $_POST['price'], PDO::PARAM_STR);
 		$query->bindValue(':description', $_POST['description'], PDO::PARAM_STR);

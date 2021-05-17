@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 21 Sty 2021, 15:01
+-- Czas generowania: 14 Maj 2021, 12:39
 -- Wersja serwera: 10.4.17-MariaDB
--- Wersja PHP: 8.0.1
+-- Wersja PHP: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `db_hotmealz`
 --
+
+DELIMITER $$
+--
+-- Procedury
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `discount` (IN `percentage` INT, IN `partner` INT)  BEGIN
+UPDATE dishes SET old_price=price WHERE id_restaurant=(SELECT id FROM restaurants WHERE id_partner=partner);
+UPDATE dishes SET price=(percentage/100)*price WHERE id_restaurant=(SELECT id FROM restaurants WHERE id_partner=partner);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `endDiscount` (IN `partner` INT)  BEGIN
+IF (SELECT old_price FROM dishes WHERE id_restaurant=(SELECT id FROM restaurants WHERE id_partner=partner) LIMIT 1) IS NOT NULL THEN
+        UPDATE dishes SET price=old_price WHERE id_restaurant=(SELECT id FROM restaurants WHERE id_partner=partner);
+        UPDATE dishes SET old_price=NULL WHERE id_restaurant=(SELECT id FROM restaurants WHERE id_partner=partner);
+    END IF;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -67,6 +85,7 @@ CREATE TABLE `dishes` (
   `id_restaurant` int(11) NOT NULL,
   `name` text NOT NULL,
   `price` float NOT NULL,
+  `old_price` float DEFAULT NULL,
   `description` text NOT NULL,
   `photo` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
