@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 14 Maj 2021, 12:39
+-- Czas generowania: 18 Maj 2021, 22:05
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 8.0.0
 
@@ -90,6 +90,42 @@ CREATE TABLE `dishes` (
   `photo` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Wyzwalacze `dishes`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_dish` BEFORE DELETE ON `dishes` FOR EACH ROW BEGIN
+DELETE FROM od_connections WHERE id_dish = OLD.id;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `klienci`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `klienci` (
+`firstname` text
+,`secondname` text
+,`email` text
+,`city` text
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `lokale`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `lokale` (
+`Nazwa lokalu` text
+,`Opis` text
+,`Szef` mediumtext
+,`Region` text
+);
+
 -- --------------------------------------------------------
 
 --
@@ -122,6 +158,17 @@ CREATE TABLE `orders` (
   `account` bigint(20) NOT NULL,
   `note` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Wyzwalacze `orders`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_order` BEFORE DELETE ON `orders` FOR EACH ROW BEGIN
+DELETE FROM od_connections WHERE id_order = OLD.id;
+DELETE FROM reclamations WHERE id_order = OLD.id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -162,6 +209,17 @@ CREATE TABLE `regions` (
   `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Wyzwalacze `regions`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_region` BEFORE DELETE ON `regions` FOR EACH ROW BEGIN
+UPDATE deliverers SET id_region = -1 WHERE id_region = OLD.id;
+UPDATE restaurants SET id_region = -1 WHERE id_region = OLD.id;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -194,6 +252,24 @@ CREATE TABLE `users` (
   `city` text NOT NULL,
   `ban` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `klienci`
+--
+DROP TABLE IF EXISTS `klienci`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `klienci`  AS SELECT `users`.`firstname` AS `firstname`, `users`.`secondname` AS `secondname`, `users`.`email` AS `email`, `users`.`city` AS `city` FROM `users` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `lokale`
+--
+DROP TABLE IF EXISTS `lokale`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `lokale`  AS SELECT `restaurants`.`name` AS `Nazwa lokalu`, `restaurants`.`name` AS `Opis`, concat(`partners`.`firstname`,' ',`partners`.`secondname`) AS `Szef`, `regions`.`name` AS `Region` FROM ((`restaurants` join `partners`) join `regions`) WHERE `restaurants`.`id_partner` = `partners`.`id` AND `restaurants`.`id_region` = `regions`.`id` ;
 
 --
 -- Indeksy dla zrzutów tabel
